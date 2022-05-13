@@ -3,11 +3,10 @@ export const initialState = {
     playlist: [],
     playing: false,
     item: null,
-    token: '',
+    token: null
 };
 
 const reducer = (state, action) =>{
-    console.log(action);
 
     //Acyion-> type, [payload]
     
@@ -15,8 +14,21 @@ const reducer = (state, action) =>{
         case 'SET_USER':
             return {
                 ...state, 
-                user: action.user
+                user: action.user,
             };
+
+        case 'SET_TOKEN':
+            return {
+                ...state,
+                token: action.token,
+            };
+
+        case 'SET_PLAYLIST':
+            return {
+                ...state,
+                playlist: action.playlist,
+            };
+        
         default:
             return state;
     }

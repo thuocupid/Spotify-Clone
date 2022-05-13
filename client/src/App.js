@@ -9,36 +9,57 @@ import { useDataLayerValue } from "./DataLayer";
 const spotify = new SpotifyWebApi();
 
 function App() {
-  const [token, setToken] = useState(
-    "BQB3erNzMVf-rU_TkFALowGTN-ZaagQ6N_6UnP-h3iKutijeDGIezV23PsFWgPmgEP-hzWIUdTuhGJ80PcnnxJLITGQMEUi9_y9NlJhZd4b57310d81XQ4sQ5G-OW4aLR4klI0bcWNgT78tpplT1gLPgW4HfX7_yiMr3LZPU7rivayKB"
-  );
-  const [user, dispatch] = useDataLayerValue();
+  const [token, setToken] = useState(null);
+  const [user,  dispatch] = useDataLayerValue();
 
   useEffect(() => {
     const hash = getTokenFromResponse();
     window.location.hash = " ";
-    let _token = hash.access_token;
+    const _token = hash.access_token;
 
-    if (_token) {
-      setToken(_token);
+    console.log("This is the hash: ", hash);
+    console.log('This is the access Token: ', _token)
 
-      spotify.setAccessToken(_token);
+    try {
+      if (_token) {
 
-      spotify.getMe().then((user) => {
-        dispatch({
-          type: "SET_USER",
-          user: user,
+        setToken(_token)
+
+        spotify.setAccessToken(_token);
+
+        // dispatch({
+        //   type: 'SET_TOKEN',
+        //   token: _token,
+        // });
+
+        spotify.getMe().then((user) => {
+          dispatch({
+            type: "SET_USER",
+            user: user,
+          });
         });
-      });
+
+        spotify.getUserPlaylists().then((playlist) => {
+          dispatch({
+            type: "SET_PLAYLIST",
+            playlist: playlist,
+          });
+        });
+      }
+    } catch (error) {
+      if (error) {
+        console.log('Error occured in dispatch: ', error)
+      }
     }
-  }, [dispatch]);
+  }, [ dispatch]);
 
   console.log("User: ", user);
   console.log("Token: ", token);
 
   return (
     <div className="app">
-      {token ? <Player spotify={spotify} /> : <Login />}
+      {!token && <Login />}
+      {token && <Player spotify={spotify} />}
     </div>
   );
 }
