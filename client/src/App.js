@@ -9,7 +9,7 @@ import { useDataLayerValue } from "./DataLayer";
 const spotify = new SpotifyWebApi();
 
 function App() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState('BQBlOyxpJyUfYuezj7DB5vKfEqROdpgXVE3k6tJ9BLjFp5V9XWCQNS3SCHhpqfLamc0iwoapstBRbtyoEWNfs8deS3ZSUDycsjj5ahMNTAktXRjq7-Vhh_yYkAE9xvDR4SS7r3lsdDpxc4wwbhUF_speQRpm2QIbikewEqfzz6sp3cog');
   const [user,  dispatch] = useDataLayerValue();
 
   useEffect(() => {

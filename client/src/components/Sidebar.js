@@ -8,7 +8,7 @@ import { useDataLayerValue } from '../DataLayer';
 
 function Sidebar() {
 
-const[playlist, dispatch] = useDataLayerValue();
+const[playlist] = useDataLayerValue();
 
 console.log('This is the playlist object: ', playlist)
 
